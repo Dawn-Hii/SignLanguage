@@ -1,0 +1,6 @@
+dataset_sign_language/
+dataset_cropped/
+*.mp4
+*.zip
+*.h5
+__pycache__/
