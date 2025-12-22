@@ -1,5 +1,6 @@
 dataset_sign_language/
 dataset_cropped/
+dataset_augmentation/
 *.mp4
 *.zip
 *.h5
