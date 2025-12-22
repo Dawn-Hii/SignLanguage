@@ -58,23 +58,21 @@ def extract_frames_from_video(video_path, output_root, segments, frame_skip=5):
     cap.release()
     print("--- Đã thêm dữ liệu mới thành công! ---")
 
-# --- CÁCH DÙNG CHO VIDEO THỨ 2 ---
 
-# Video mới (Nhớ thêm chữ r đằng trước)
-my_video_2 = r"C:\Users\Predator\Videos\Captures\Bảng chữ cái Ngôn ngữ ký hiệu - YouTube - Opera 2025-12-21 13-58-06.mp4"
 
-# Thời gian của video mới (Khác video cũ nhé)
+# Link video 
+my_video_2 = r"C:\Users\Predator\Videos\Video_sign_language\601477544_25515138254805696_7524847384678863106_n.mp4"
+
+# Thời gian của video 
 my_segments_2 = [
-    ("A",9,11),("B",16, 18),("C",23,25),("D",30,32),("E",41,43),("G",49,50),("H",58,60)
-    ,("I",64,66),("K",73,75),("L",79,81),("M",88,90),("N",94,96),("O",102,104),("P",111,113)
-    ,("Q",121,123),("R",130,132),("S",138,139),("T",149,150),("U",156,157),("V",161,163),("X",175,176),("Y",182,184)
-    
+    ("A",2,5),("B",9, 16),("C",18,25),("D",30,32),("E",41,43),("G",49,50),("H",58,60)     
+    ,("I",64,66),("K",73,75),("L",79,81),("M",88,90),("N",94,96),("O",102,104),("P",111,113)     
+    ,("Q",121,123),("R",130,132),("S",138,139),("T",149,150),("U",156,157),("V",161,163),("X",175,176),("Y",182,184)     
 ]
 
-# Vẫn dùng output_root cũ, code sẽ tự động nối thêm vào
 extract_frames_from_video(
     video_path=my_video_2, 
-    output_root="dataset_sign_language",  # Giữ nguyên tên folder này
+    output_root="dataset_sign_language",  
     segments=my_segments_2,
     frame_skip=5 
 )
