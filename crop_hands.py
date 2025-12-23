@@ -3,11 +3,11 @@ import os
 import mediapipe as mp
 import math
 
-# --- CẤU HÌNH ---
-INPUT_DIR = r"D:\Train\AI\SignLanguage\dataset_sign_language"  # Folder ảnh gốc
-OUTPUT_DIR = r"D:\Train\AI\SignLanguage\dataset_cropped"       # Folder mới để lưu ảnh đã cắt
-TARGET_SIZE = 224   # Resize ảnh cuối cùng về 128x128
-PADDING = 50        # Chừa lề xung quanh tay (pixel)
+
+INPUT_DIR = r"D:\Train\AI\SignLanguage\dataset_sign_language"  
+OUTPUT_DIR = r"D:\Train\AI\SignLanguage\dataset_cropped"       
+TARGET_SIZE = 224   
+PADDING = 50        
 
 # Khởi tạo bộ nhận diện tay của MediaPipe
 mp_hands = mp.solutions.hands
@@ -65,7 +65,7 @@ def crop_hand_from_image(image_path, save_path):
         # Cắt ảnh
         crop_img = img[new_y_min:new_y_max, new_x_min:new_x_max]
         
-        # Resize về kích thước chuẩn (ví dụ 128x128)
+        
         try:
             final_img = cv2.resize(crop_img, (TARGET_SIZE, TARGET_SIZE))
             cv2.imwrite(save_path, final_img)
@@ -76,7 +76,7 @@ def crop_hand_from_image(image_path, save_path):
             
     return False
 
-# --- CHẠY VÒNG LẶP ---
+
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
@@ -109,8 +109,7 @@ for root, dirs, files in os.walk(INPUT_DIR):
                     print(f"Đã xử lý: {processed_count} ảnh...")
             else:
                 skipped_count += 1
-                # print(f"Bỏ qua (không thấy tay): {file}")
-
+                
 print("-" * 30)
 print(f"HOÀN THÀNH!")
 print(f"Số ảnh đã crop thành công: {processed_count}")

@@ -61,18 +61,17 @@ def extract_frames_from_video(video_path, output_root, segments, frame_skip=5):
 
 
 # Link video 
-my_video_2 = r"C:\Users\Predator\Videos\Video_sign_language\601477544_25515138254805696_7524847384678863106_n.mp4"
+my_video_2 = r"C:\Users\Predator\Pictures\Camera Roll\WIN_20251222_22_46_08_Pro.mp4"
 
 # Thời gian của video 
-my_segments_2 = [
-    ("A",2,5),("B",9, 16),("C",18,25),("D",30,32),("E",41,43),("G",49,50),("H",58,60)     
-    ,("I",64,66),("K",73,75),("L",79,81),("M",88,90),("N",94,96),("O",102,104),("P",111,113)     
-    ,("Q",121,123),("R",130,132),("S",138,139),("T",149,150),("U",156,157),("V",161,163),("X",175,176),("Y",182,184)     
+my_segments_2 = [("G",6,11), ("H",19,31)     
 ]
 
+#("A",2,17),("B",23, 39),("C",45,56),("D",60,78),("E",83,94),, ("I",146,160), ("K",170,181),("L",185,200),("M",211,223),("N",228,241),("O",248,260),("P",268,290),     
+#("Q",295,307),("R",316,336),("S",342,360),("T",366,386),("U",392,402),("V",407,418),("X",426,440),("Y",448,465)
 extract_frames_from_video(
     video_path=my_video_2, 
     output_root="dataset_sign_language",  
     segments=my_segments_2,
-    frame_skip=5 
+    frame_skip=5
 )
