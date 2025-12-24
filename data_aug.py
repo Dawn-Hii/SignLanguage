@@ -6,7 +6,7 @@ import glob
 
 INPUT_FOLDER = "dataset_cropped"      # Ảnh gốc 
 OUTPUT_FOLDER = "aug3"       # Thư mục kết quả 
-NUM_AUGMENT = 5                       # 1 ảnh gốc : 5 ảnh mới
+NUM_AUGMENT = 3                       # 1 ảnh gốc : 3 ảnh mới
 
 
 def strong_augment(image):
