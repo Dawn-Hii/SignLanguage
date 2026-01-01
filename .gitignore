@@ -2,6 +2,8 @@ dataset_sign_language/
 dataset_cropped/
 dataset_augmentation/
 dataset_bw_new/
+BW/
+dataset_final/
 *.mp4
 *.zip
 *.h5
