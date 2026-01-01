@@ -21,7 +21,7 @@ class Config:
     min_tracking_confidence: float = 0.7
 
     # --- CẤU HÌNH CHỤP ---
-    min_capture_interval_s: float = 0.5  # Tốc độ chụp
+    min_capture_interval_s: float = 0.35  # Tốc độ chụp
 
     min_bbox_size_px: int = 50
     max_bbox_size_ratio: float = 0.9

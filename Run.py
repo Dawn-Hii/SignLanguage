@@ -36,10 +36,10 @@ class MobileNetSignLanguage(nn.Module):
 
 
 # KHỞI TẠO
-print("⏳ Đang tải tài nguyên...")
+print("Đang tải tài nguyên...")
 
 if not os.path.exists(LABEL_PATH):
-    print(f"❌ Lỗi: Không tìm thấy file {LABEL_PATH}.")
+    print(f"Lỗi: Không tìm thấy file {LABEL_PATH}.")
     exit()
 with open(LABEL_PATH, 'rb') as f:
     class_names = pickle.load(f)
@@ -48,9 +48,9 @@ model = MobileNetSignLanguage(len(class_names)).to(device)
 if os.path.exists(MODEL_PATH):
     model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
     model.eval()
-    print("✅ Đã tải Model MobileNet thành công!")
+    print("Đã tải Model MobileNet thành công!")
 else:
-    print(f"❌ Lỗi: Không tìm thấy file {MODEL_PATH}")
+    print(f"Lỗi: Không tìm thấy file {MODEL_PATH}")
     exit()
 
 mp_hands = mp.solutions.hands

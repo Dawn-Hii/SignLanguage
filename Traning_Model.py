@@ -9,32 +9,32 @@ import matplotlib.pyplot as plt
 import copy
 import numpy as np
 
-# --- 1. CẤU HÌNH (ĐÃ TINH CHỈNH) ---
-DATA_DIR = 'DataSet_ThanhBinh'
+#CẤU HÌNH
+DATA_DIR = 'dataset_final'
 MODEL_PATH = 'model_mobilenet_stable.pth'
 LABEL_PATH = 'label_map.pkl'
 IMG_SIZE = 224
 
-# ✅ 1. Tăng Batch Size để đường Loss mượt hơn (Trung bình hóa tốt hơn)
+#Tăng Batch Size để đường Loss mượt hơn (Trung bình hóa tốt hơn)
 BATCH_SIZE = 64
-# ✅ 2. Giảm Learning Rate để model học chậm mà chắc
+#Giảm Learning Rate để model học chậm mà chắc
 LEARNING_RATE = 0.0003
 
-EPOCHS = 100
+EPOCHS = 10
 
 PATIENCE = 10
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def train_model():
-    print(f"🚀 Đang chạy trên thiết bị: {device}")
+    print(f"Đang chạy trên thiết bị: {device}")
 
     if not os.path.exists(DATA_DIR):
-        print("❌ LỖI: Không tìm thấy thư mục dữ liệu!")
+        print("LỖI: Không tìm thấy thư mục dữ liệu!")
         return
 
-    # --- 2. DATA AUGMENTATION MẠNH HƠN ---
-    # ✅ 3. Thêm biến đổi ảnh để model không học vẹt
+
+    
     train_transform = transforms.Compose([
         transforms.Grayscale(num_output_channels=1),
         transforms.Resize((IMG_SIZE, IMG_SIZE)),
@@ -45,7 +45,7 @@ def train_model():
         transforms.Normalize(mean=[0.5], std=[0.5])
     ])
 
-    # Validation không cần Data Augmentation (chỉ cần resize và chuẩn hóa)
+    # Validation không cần Data Augmentation
     val_transform = transforms.Compose([
         transforms.Grayscale(num_output_channels=1),
         transforms.Resize((IMG_SIZE, IMG_SIZE)),
@@ -53,9 +53,9 @@ def train_model():
         transforms.Normalize(mean=[0.5], std=[0.5])
     ])
 
-    full_dataset = datasets.ImageFolder(root=DATA_DIR)  # Load thô trước
+    full_dataset = datasets.ImageFolder(root=DATA_DIR)  
     class_names = full_dataset.classes
-    print(f"✅ Class: {class_names}")
+    print(f"Class: {class_names}")
 
     # Chia tập dữ liệu
     train_size = int(0.8 * len(full_dataset))
@@ -65,11 +65,9 @@ def train_model():
     # Gán transform riêng cho từng tập
     train_subset.dataset.transform = train_transform
     val_subset.dataset.transform = val_transform
-    # (Lưu ý: cách gán trên hơi hack, chuẩn nhất là tạo class Dataset riêng,
-    # nhưng với ImageFolder cơ bản thì ta dùng transform trong DataLoader như sau là ổn nhất:)
+    
 
-    # Cách chuẩn hơn cho ImageFolder khi chia split:
-    # Ta tạo lại 2 dataset riêng biệt trỏ cùng folder nhưng khác transform
+    
     train_dataset = datasets.ImageFolder(root=DATA_DIR, transform=train_transform)
     val_dataset = datasets.ImageFolder(root=DATA_DIR, transform=val_transform)
 
@@ -83,14 +81,14 @@ def train_model():
     with open(LABEL_PATH, 'wb') as f:
         pickle.dump(class_names, f)
 
-    # --- 3. MODEL VỚI DROPOUT ---
+    #MODEL VỚI DROPOUT
     class MobileNetSignLanguage(nn.Module):
         def __init__(self, num_classes):
             super(MobileNetSignLanguage, self).__init__()
             self.model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.DEFAULT)
             self.model.features[0][0] = nn.Conv2d(1, 32, kernel_size=3, stride=2, padding=1, bias=False)
 
-            # ✅ 5. Thêm Dropout vào Classifier để chống Overfitting
+            #Thêm Dropout vào Classifier để chống Overfitting
             self.model.classifier = nn.Sequential(
                 nn.Dropout(p=0.3),  # Ngẫu nhiên tắt 30% nơ-ron
                 nn.Linear(1280, num_classes)
@@ -101,8 +99,8 @@ def train_model():
 
     model = MobileNetSignLanguage(len(class_names)).to(device)
 
-    # --- 4. OPTIMIZER & LOSS ---
-    # ✅ 4. Label Smoothing giúp Loss mượt hơn
+    #OPTIMIZER & LOSS
+    #Label Smoothing giúp Loss mượt hơn
     criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
 
     # Weight Decay giúp giữ trọng số nhỏ, tránh biến động mạnh
@@ -118,7 +116,7 @@ def train_model():
     print("🔥 Bắt đầu Train ổn định...")
 
     for epoch in range(EPOCHS):
-        # --- TRAIN ---
+        #TRAIN
         model.train()
         running_loss = 0.0
         correct = 0
@@ -142,7 +140,7 @@ def train_model():
         history['train_loss'].append(epoch_loss)
         history['train_acc'].append(epoch_acc)
 
-        # --- VALIDATION ---
+        #VALIDATION
         model.eval()
         val_loss = 0.0
         val_correct = 0
@@ -176,11 +174,11 @@ def train_model():
             best_model_wts = copy.deepcopy(model.state_dict())
             patience_counter = 0
             torch.save(model.state_dict(), MODEL_PATH)
-            print("   --> 💾 Saved Best Model")
+            print("Saved Best Model")
         else:
             patience_counter += 1
             if patience_counter >= PATIENCE:
-                print("🛑 Early Stopping.")
+                print("Early Stopping.")
                 break
 
     # Vẽ biểu đồ

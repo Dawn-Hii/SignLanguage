@@ -42,11 +42,11 @@ class MobileNetSignLanguage(nn.Module):
         return self.model(x)
 
 #KHỞI TẠO
-print("⏳ Đang tải tài nguyên...")
+print("Đang tải tài nguyên...")
 
 #Load Nhãn
 if not os.path.exists(LABEL_PATH):
-    print(f"❌ Lỗi: Thiếu file {LABEL_PATH}")
+    print(f"Lỗi: Thiếu file {LABEL_PATH}")
     exit()
 with open(LABEL_PATH, 'rb') as f:
     class_names = pickle.load(f)
@@ -66,9 +66,9 @@ if os.path.exists(MODEL_PATH):
         
     model.load_state_dict(new_state_dict)
     model.eval()
-    print("✅ Đã tải Model thành công!")
+    print("Đã tải Model thành công!")
 else:
-    print(f"❌ Lỗi: Thiếu file {MODEL_PATH}")
+    print(f"Lỗi: Thiếu file {MODEL_PATH}")
     exit()
 
 #MediaPipe & Transform

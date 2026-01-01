@@ -9,8 +9,8 @@ import pickle
 import os
 import numpy as np
 
-# --- CẤU HÌNH ---
-DATA_DIR = 'DataSet_ThanhBinh'  # Thư mục dữ liệu (hoặc dataset_bw_clean)
+#CẤU HÌNH
+DATA_DIR = 'DataSet_ThanhBinh'  # Thư mục dữ liệu
 MODEL_PATH = 'model_pytorch.pth'
 LABEL_PATH = 'label_map.pkl'
 IMG_SIZE = 224
@@ -18,7 +18,7 @@ BATCH_SIZE = 32
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-# --- ĐỊNH NGHĨA MODEL (Phải giống hệt lúc train) ---
+#MODEL
 class SignLanguageCNN(nn.Module):
     def __init__(self, num_classes):
         super(SignLanguageCNN, self).__init__()
@@ -48,9 +48,9 @@ class SignLanguageCNN(nn.Module):
         return x
 
 
-# --- CHẠY ĐÁNH GIÁ ---
+#CHẠY ĐÁNH GIÁ
 def evaluate():
-    print("🚀 Đang tải dữ liệu kiểm tra...")
+    print("Đang tải dữ liệu kiểm tra...")
 
     # Load Label
     with open(LABEL_PATH, 'rb') as f:
@@ -75,7 +75,7 @@ def evaluate():
     all_preds = []
     all_labels = []
 
-    print("⏳ Đang chấm điểm model...")
+    print("Đang chấm điểm model...")
     with torch.no_grad():
         for images, labels in loader:
             images = images.to(device)
@@ -98,10 +98,8 @@ def evaluate():
 
     # Tính độ chính xác tổng
     acc = np.sum(np.diag(cm)) / np.sum(cm)
-    print(f"✅ Độ chính xác tổng quát: {acc * 100:.2f}%")
+    print(f"Độ chính xác tổng quát: {acc * 100:.2f}%")
 
 
 if __name__ == "__main__":
-    # Cài thư viện vẽ biểu đồ nếu chưa có
-    # pip install matplotlib seaborn scikit-learn
     evaluate()
