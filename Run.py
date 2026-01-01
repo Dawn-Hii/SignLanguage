@@ -10,12 +10,12 @@ import time
 from PIL import Image
 from collections import deque, Counter
 
-# --- 1. CẤU HÌNH ---
+#CẤU HÌNH
 MODEL_PATH = 'model_mobilenet.pth'
 LABEL_PATH = 'label_map.pkl'
 IMG_SIZE = 224
 
-# [CẤU HÌNH ĐỘ MƯỢT]
+#CẤU HÌNH ĐỘ MƯỢT
 CONFIDENCE_THRESHOLD = 0.85
 SMOOTH_FACTOR = 0.8
 PREDICTION_QUEUE_LEN = 8
@@ -23,7 +23,7 @@ PREDICTION_QUEUE_LEN = 8
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-# --- 2. ĐỊNH NGHĨA MODEL ---
+#ĐỊNH NGHĨA MODEL
 class MobileNetSignLanguage(nn.Module):
     def __init__(self, num_classes):
         super(MobileNetSignLanguage, self).__init__()
@@ -35,7 +35,7 @@ class MobileNetSignLanguage(nn.Module):
         return self.model(x)
 
 
-# --- 3. KHỞI TẠO ---
+# KHỞI TẠO
 print("⏳ Đang tải tài nguyên...")
 
 if not os.path.exists(LABEL_PATH):
@@ -68,13 +68,13 @@ clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
 # Queue lưu lịch sử dự đoán
 predictions_queue = deque(maxlen=PREDICTION_QUEUE_LEN)
 
-# --- 4. CHẠY CAMERA ---
+#CHẠY CAMERA
 print("📷 Đang mở camera...")
 cap = cv2.VideoCapture(0)
 
 prev_coords = None
 displayed_label = "..."
-current_pct = 0  # Biến lưu phần trăm hiện tại
+current_pct = 0  
 prev_time = 0
 
 while True:
@@ -116,7 +116,7 @@ while True:
 
             cv2.rectangle(frame, (sx_min, sy_min), (sx_max, sy_max), (0, 255, 0), 2)
 
-            # --- DỰ ĐOÁN ---
+            #DỰ ĐOÁN
             if sx_max > sx_min and sy_max > sy_min:
                 crop = frame[sy_min:sy_max, sx_min:sx_max]
                 if crop.size > 0:
@@ -153,7 +153,7 @@ while True:
                                     # Lấy % của khung hình hiện tại để hiển thị cho sinh động
                                     current_pct = int(current_score * 100)
 
-                            # --- [HIỂN THỊ KẾT QUẢ ĐÃ SỬA] ---
+                            #HIỂN THỊ KẾT QUẢ ĐÃ SỬA
                             if displayed_label != "...":
                                 color = (0, 255, 0)
                                 # Đã thêm phần trăm vào đây
