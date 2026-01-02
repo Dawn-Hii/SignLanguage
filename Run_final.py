@@ -16,8 +16,8 @@ LABEL_PATH = 'label_map.pkl'
 IMG_SIZE = 224
 
 # CẤU HÌNH ĐỘ MƯỢT
-CONFIDENCE_THRESHOLD = 0.75 
-SMOOTH_FACTOR = 0.5         
+CONFIDENCE_THRESHOLD = 0.8
+SMOOTH_FACTOR = 0.7         
 PREDICTION_QUEUE_LEN = 8    
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
